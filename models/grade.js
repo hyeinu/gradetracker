@@ -120,7 +120,6 @@ exports.getTotal = function(grades){
     letterScores.forEach(letter =>{
       return totalLetters[letter] = totalLetters[letter] ? totalLetters[letter] + 1: 1;
     })
-
     totals.letter = totalLetters;
     resolve(totals);
   })
@@ -129,7 +128,6 @@ exports.getTotal = function(grades){
 exports.update = function(id, newGrade){
   return new Promise((resolve, reject) => {
     delete newGrade.id;
-
     let sql = squel.update()
                    .table('grades')
                    .setFields(newGrade)

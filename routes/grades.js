@@ -7,16 +7,15 @@ let Grade = require('../models/grade')
 
 router.get('/totals', (req, res) =>{
   Grade.getAll()
-  .then(grades => {
-    return Grade.getTotal(grades)
-  })
-  .then(totals =>{
-    //console.log(totals);
-    res.send(totals);
-  })
-  .catch(err =>{
-    res.status(400).send(err);
-  })
+       .then(grades => {
+         return Grade.getTotal(grades)
+       })
+       .then(totals =>{
+         res.send(totals);
+       })
+       .catch(err =>{
+         res.status(400).send(err);
+       })
 })
 
 router.get('/', (req, res) =>{
