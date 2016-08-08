@@ -3,6 +3,20 @@ const router = express.Router();
 
 let Grade = require('../models/grade')
 
+router.get('/totals', (req, res) =>{
+  Grade.getAll()
+  .then(grades => {
+    return Grade.getTotal(grades)
+  })
+  .then(totals =>{
+    console.log(totals);
+    res.send(totals);
+  })
+  .catch(err =>{
+    res.status(400).send(err);
+  })
+})
+
 router.get('/', (req, res) =>{
   Grade.getAll()
        .then(grades =>{
@@ -13,18 +27,6 @@ router.get('/', (req, res) =>{
        })
 })
 
-router.get('/totals', (req, res) =>{
-  Grade.getAll()
-       .then(grades => {
-         return Grade.getTotal(grades)
-       })
-       .then(totals =>{
-         res.send(totals);
-       })
-       .catch(err =>{
-         res.status(400).send(err);
-       })
-})
 
 router.post('/', (req, res) =>{
   Grade.create(req.body)

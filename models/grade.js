@@ -92,38 +92,60 @@ exports.delete = function(id){
 }
 
 exports.getTotal = function(grades){
-  return new Promise ((resolve, reject) =>{
-    let totals = {};
-    let totalLetters = {};
+  return new Promise((resolve, reject) => {
+    if (err){
+      reject(err);
+    } else {
+      let totals = {};
+      let totalLetters = {};
 
-    let overalls = grades.map(grade => {
-      return grade.total;
-    })
-    total.overall = overalls.reduce((total, next) =>{
-      return total + next;
-    }, 0)
+      let overalls = grades.map(grade => {
+        return grade.total;
+      })
+      totals.overall = overalls.reduce((total, next) =>{
+        return total + next;
+      }, 0)
 
-    let scores = grades.map(grade => {
-      return grade.score;
-    })
-    total.score = scores.reduce((total, next) =>{
-      return total + next;
-    }, 0)
+      let scores = grades.map(grade => {
+        return grade.score;
+      })
+      totals.score = scores.reduce((total, next) =>{
+        return total + next;
+      }, 0)
 
-    let letterScores = grades.map(grade =>{
-      return grade.letter;
-    }).sort();
+      let letterScores = grades.map(grade =>{
+        return grade.letter;
+      }).sort();
 
-    letterScores.forEach(letter =>{
-      totalLetters[letter] = totalLetter[letter] ? totalLetter[letter] + 1: 1;
-    })
-    total.letter = totalLetters;
-
-    return totals;
-    resolve(totals)
+      letterScores.forEach(letter =>{
+        totalLetters[letter] = totalLetter[letter] ? totalLetter[letter] + 1: 1;
+      })
+      totals.letter = totalLetters;
+      //return totals;
+      resolve(totals);
+    }
   })
 }
 
+exports.update = function(id, newGrade){
+  return new Promise((resolve, reject) => {
+    delete newGrade.id;
+
+    let sql = squel.update()
+                   .table('grades')
+                   .setFields(newGrade)
+                   .where(`id = ?`, id)
+                   .toString();
+
+    db.query(sql, err =>{
+      if(err){
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
 
 
 function gradeEvaluation(score){
