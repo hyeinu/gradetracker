@@ -60,10 +60,10 @@ exports.create = function(newGrade){
        if(err){
          reject(err);
        } else {
-         grades.forEach(grade =>{
-           let graded = (grade.score/grade.total)
-           grade.letter = gradeEvaluation(graded)
-         })
+           let grade = grades[0];
+           //console.log(grade.score)
+          let graded = (grade.score/grade.total)
+          grade.letter = gradeEvaluation(graded)
          resolve(grade);
        }
      })
@@ -92,29 +92,41 @@ exports.delete = function(id){
 }
 
 exports.getTotal = function(grades){
-  let totals = {};
+  return new Promise ((resolve, reject) =>{
+    let totals = {};
+    let totalLetters = {};
 
-  let overalls = grades.map(grade => {
-    return grade.total;
+    let overalls = grades.map(grade => {
+      return grade.total;
+    })
+    total.overall = overalls.reduce((total, next) =>{
+      return total + next;
+    }, 0)
+
+    let scores = grades.map(grade => {
+      return grade.score;
+    })
+    total.score = scores.reduce((total, next) =>{
+      return total + next;
+    }, 0)
+
+    let letterScores = grades.map(grade =>{
+      return grade.letter;
+    }).sort();
+
+    letterScores.forEach(letter =>{
+      totalLetters[letter] = totalLetter[letter] ? totalLetter[letter] + 1: 1;
+    })
+    total.letter = totalLetters;
+
+    return totals;
+    resolve(totals)
   })
-  total.overall = overalls.reduce((total,next) =>{
-    return total + next;
-  }, 0)
-
-  let scores = grades.map(score => {
-    return grade.score;
-  })
-  total.score = scores.reduce((total,next) =>{
-    return total + next;
-  }, 0)
-
-  
-
 }
 
 
 
-function gradedEvaluation(score){
+function gradeEvaluation(score){
   let percent = score*100;
   if(percent >= 90){
     return 'A';

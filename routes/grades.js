@@ -13,6 +13,19 @@ router.get('/', (req, res) =>{
        })
 })
 
+router.get('/totals', (req, res) =>{
+  Grade.getAll()
+       .then(grades => {
+         return Grade.getTotal(grades)
+       })
+       .then(totals =>{
+         res.send(totals);
+       })
+       .catch(err =>{
+         res.status(400).send(err);
+       })
+})
+
 router.post('/', (req, res) =>{
   Grade.create(req.body)
        .then(()=>{
@@ -53,17 +66,6 @@ router.delete('/:id', (req, res) =>{
        })
 })
 
-router.get('/totals', (req, res) =>{
-  Grade.getAll()
-       .then(grades => {
-         return Grade.getTotal(grades)
-       })
-       .then(totals =>{
-         res.send(totals);
-       })
-       .catch(err =>{
-         res.status(400).send(err);
-       })
-})
+
 
 module.exports = router;
