@@ -1,3 +1,4 @@
+"use strict";
 const mysql = require('mysql');
 
 const db = mysql.createConnection(process.env.JAWSDB_URL || {

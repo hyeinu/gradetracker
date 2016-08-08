@@ -1,3 +1,5 @@
+"use strict";
+
 const db = require('../config/db');
 const squel = require('squel').useFlavour('mysql');
 const uuid = require('uuid');
