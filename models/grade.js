@@ -94,9 +94,22 @@ exports.delete = function(id){
 exports.getTotal = function(grades){
   let totals = {};
 
-  totals.overall = grades.reduce(grade =>{
-    
+  let overalls = grades.map(grade => {
+    return grade.total;
   })
+  total.overall = overalls.reduce((total,next) =>{
+    return total + next;
+  }, 0)
+
+  let scores = grades.map(score => {
+    return grade.score;
+  })
+  total.score = scores.reduce((total,next) =>{
+    return total + next;
+  }, 0)
+
+  
+
 }
 
 
