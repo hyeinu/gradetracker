@@ -93,37 +93,34 @@ exports.delete = function(id){
 
 exports.getTotal = function(grades){
   return new Promise((resolve, reject) => {
-    if (err){
-      reject(err);
-    } else {
-      let totals = {};
-      let totalLetters = {};
 
-      let overalls = grades.map(grade => {
-        return grade.total;
-      })
-      totals.overall = overalls.reduce((total, next) =>{
-        return total + next;
-      }, 0)
+    let totals = {};
+    let totalLetters = {};
 
-      let scores = grades.map(grade => {
-        return grade.score;
-      })
-      totals.score = scores.reduce((total, next) =>{
-        return total + next;
-      }, 0)
+    let overalls = grades.map(grade => {
+      return grade.total;
+    })
+    totals.overall = overalls.reduce((total, next) =>{
+      return total + next;
+    }, 0)
 
-      let letterScores = grades.map(grade =>{
-        return grade.letter;
-      }).sort();
+    let scores = grades.map(grade => {
+      return grade.score;
+    })
+    totals.score = scores.reduce((total, next) =>{
+      return total + next;
+    }, 0)
 
-      letterScores.forEach(letter =>{
-        totalLetters[letter] = totalLetter[letter] ? totalLetter[letter] + 1: 1;
-      })
-      totals.letter = totalLetters;
-      //return totals;
-      resolve(totals);
-    }
+    let letterScores = grades.map(grade =>{
+      return grade.letter;
+    }).sort();
+
+    letterScores.forEach(letter =>{
+      return totalLetters[letter] = totalLetters[letter] ? totalLetters[letter] + 1: 1;
+    })
+
+    totals.letter = totalLetters;
+    resolve(totals);
   })
 }
 

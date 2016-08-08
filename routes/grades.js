@@ -9,7 +9,7 @@ router.get('/totals', (req, res) =>{
     return Grade.getTotal(grades)
   })
   .then(totals =>{
-    console.log(totals);
+    //console.log(totals);
     res.send(totals);
   })
   .catch(err =>{
